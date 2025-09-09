@@ -11,7 +11,7 @@
 
 // Конфигурация
 var CONFIG = {
-    LOG_KEY: 'group_person_block'    // Ключ логирования
+    LOG_KEY: 'group_person_block'    // Имя лога агента
 };
 
 // Логирование
@@ -36,7 +36,7 @@ rows = XQuery("sql:
     JOIN [group_collaborators] gc ON g.id = gc.group_id
     JOIN collaborators c ON c.id = gc.collaborator_id
     WHERE g.data.value('(//custom_elem[name=\"vrem_date\"]/value)[1]', 'datetimeoffset') < SYSDATETIMEOFFSET()
-      AND c.web_banned = '0'");
+      AND c.web_banned = 0");
 
 if (!ArrayCount(rows)) {
     LogEvent(CONFIG.LOG_KEY, 'Нет сотрудников для блокировки по дате блокировки в карточке группы');
