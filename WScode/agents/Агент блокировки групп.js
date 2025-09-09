@@ -11,7 +11,7 @@
 
 // Конфигурация
 var CONFIG = {
-    LOG_KEY: 'group_person_block'    // Имя лога агента
+  LOG_KEY: 'group_person_block'    // Имя лога агента
 };
 
 // Логирование
@@ -31,37 +31,34 @@ var updatedCount;
 
 // 1) Получаем ID сотрудников одним SQL-запросом
 rows = XQuery("sql:
-    SELECT gc.collaborator_id
-    FROM [group] g
-    JOIN [group_collaborators] gc ON g.id = gc.group_id
-    JOIN collaborators c ON c.id = gc.collaborator_id
-    WHERE g.data.value('(//custom_elem[name=\"vrem_date\"]/value)[1]', 'datetimeoffset') < SYSDATETIMEOFFSET()
-      AND c.web_banned = 0");
+SELECT gc.collaborator_id
+FROM [group] g
+JOIN [group_collaborators] gc ON g.id = gc.group_id
+JOIN collaborators c ON c.id = gc.collaborator_id
+WHERE g.data.value('(//custom_elem[name=\"vrem_date\"]/value)[1]', 'datetimeoffset') < SYSDATETIMEOFFSET()
+AND c.web_banned = 0");
 
 if (!ArrayCount(rows)) {
-    LogEvent(CONFIG.LOG_KEY, 'Нет сотрудников для блокировки по дате блокировки в карточке группы');
-    EnableLog(CONFIG.LOG_KEY, false);
-    return;
+  LogEvent(CONFIG.LOG_KEY, 'Нет сотрудников для блокировки по дате блокировки в карточке группы');
+  EnableLog(CONFIG.LOG_KEY, false);
+  return;
 }
 
 updatedCount = 0;
 
 // 2) Блокировка: устанавливаем web_banned = true
 for (row in rows) {
-    personId = OptInt(row.collaborator_id);
-    if (personId == undefined) continue;
+  personId = OptInt(row.collaborator_id);
+  if (personId == undefined) continue;
 
-    personDoc = tools.open_doc(personId);
-    if (personDoc.TopElem.access.web_banned != true) {
-        personDoc.TopElem.access.web_banned = true;
-        personDoc.Save();
-        updatedCount = updatedCount + 1;
-    }
+  personDoc = tools.open_doc(personId);
+  if (personDoc.TopElem.access.web_banned != true) {
+    personDoc.TopElem.access.web_banned = true;
+    personDoc.Save();
+    updatedCount = updatedCount + 1;
+  }
 }
 
-LogEvent(
-    CONFIG.LOG_KEY,
-    'Завершено. Заблокировано сотрудников: ' + updatedCount
-);
+LogEvent(CONFIG.LOG_KEY, 'Завершено. Заблокировано сотрудников: ' + updatedCount);
 
 EnableLog(CONFIG.LOG_KEY, false);
