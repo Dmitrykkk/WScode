@@ -45,24 +45,20 @@ TABLE { font-size: 13pt; font-family: calibri; width: 100%; max-width: 600px; ma
 Вам назначено прохождение тестирования на Портале оценки.<br><br>
 </td></tr>
 <tr><td align="left">
-<span class="indent">Для входа в систему используйте свои учетные данные:<br><br></span></td></tr>;
-<tr><td align="left"><span class="indent">Ваш логин: ;
-</span></td></tr>
-<tr><td align="left"><span class="indent">Ваш пароль: ;
-</span></td></tr>
+<span class="indent">Для входа в систему используйте свои учетные данные:<br><br></span></td></tr>
+<tr><td align="left"><span class="indent">Ваш логин:</span></td></tr>
+<tr><td align="left"><span class="indent">Ваш пароль:</span></td></tr>
 <tr><td align="left">
-<span class="indent">Для прохождения тестирования перейдите по <span class="col"><u><a href="https://ocenka.corpusspb.ru/">ссылке</a></u></span>.<br><br>
+<span class="indent">Для прохождения тестирования перейдите по <span class="col"><u>ссылке</u></span>.<br><br>
 По итогам теста результаты будут зафиксированы в системе.<br><br>
 Благодарим Вас за участие!<br><br>
 С уважением,<br>
 Команда Корпоративного университета<br><br>
-<img src="http://kurs.espbmrc.ru/mail/3.5.png" align="middle">
 <a href="mailto:'
 +CONFIG.LOGIN+
 '">'
 +CONFIG.LOGIN+
 '</a><br>
-<img src="http://kurs.espbmrc.ru/mail/3.6.png" align="middle">+7 (904) 336-99-82<br><br>
 </span></td></tr>
 <tr><td align="center">
 <img src="https://e.corpusspb.ru/img/notification/OpenAccess/logocprpg.png" width="220" height="65" alt="https://corpusspb.ru"><br><br>
@@ -143,7 +139,7 @@ for (row in rows) {
   message.subject = CONFIG.SUBJECT;
   // Персонализируем тело письма логином/паролем текущего получателя
   personalizedBody = StrReplace(
-    StrReplace(bodyHtml, 'Ваш логин: ;', 'Ваш логин: ' + row.login + ';'),
+        StrReplace(bodyHtml, 'Ваш логин: ;', 'Ваш логин: ' + row.login + ';'),
     'Ваш пароль: ;', 'Ваш пароль: ' + row.password + ';'
   );
   message.html_body = personalizedBody;
