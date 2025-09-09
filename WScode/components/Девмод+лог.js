@@ -25,8 +25,8 @@ Request.AddRespHeader("X-Frame-Options", "SAMEORIGIN");
 
 // Конфигурация канала логирования
 var logConfig = {
-  code: "tools_log",
-  type: "tools",
+  code: "test_log",
+  type: "test",
   id: customWebTemplate.id
 }
 
