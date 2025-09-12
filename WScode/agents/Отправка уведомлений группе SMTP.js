@@ -61,7 +61,6 @@ TABLE { font-size: 13pt; font-family: calibri; width: 100%; max-width: 600px; ma
 '</a><br>
 </span></td></tr>
 <tr><td align="center">
-<img src="https://e.corpusspb.ru/img/notification/OpenAccess/logocprpg.png" width="220" height="65" alt="https://corpusspb.ru"><br><br>
 </td></tr>
 </table>
 </div>
