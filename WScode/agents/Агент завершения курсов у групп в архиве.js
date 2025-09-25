@@ -41,7 +41,7 @@ var row;
 /** @type {number} */
 var finishedCount;
 
-// Подготавливаем значение для оператора LIKE по названию роли
+
 likeRoleName = "N'%" + CONFIG.ROLE_NAME_FILTER + "%'";
 
 // Собираем один SQL-запрос (многострочная строка)
@@ -51,8 +51,8 @@ FROM [active_learnings] a
 JOIN (
     SELECT [id] AS course_id
     FROM [courses]
-    WHERE role_id.exist('/role_id[text()='''" + CONFIG.EXCLUDE_COURSE_ROLE_IDS[0] + "''']') = 0
-      AND role_id.exist('/role_id[text()='''" + CONFIG.EXCLUDE_COURSE_ROLE_IDS[1] + "''']') = 0
+    WHERE role_id.exist('/role_id[text()=''" + CONFIG.EXCLUDE_COURSE_ROLE_IDS[0] + "'']') = 0
+      AND role_id.exist('/role_id[text()=''" + CONFIG.EXCLUDE_COURSE_ROLE_IDS[1] + "'']') = 0
 ) c ON a.course_id = c.course_id
 JOIN [group_collaborators] g ON a.person_id = g.collaborator_id
 JOIN [groups] gr ON g.group_id = gr.id
@@ -66,14 +66,14 @@ WHERE a.max_end_date IS NOT NULL
   AND c2.org_id IN (" + CONFIG.ORG_IDS.join(', ') + ")
 ORDER BY a.[max_end_date] DESC";
 
+
 // Выполняем запрос, приводим к обычному массиву для быстрого прохода
 rows = ArrayDirect(XQuery(sqlQuery));
 
 // Если записей нет — выходим
-if (!rows || ArrayCount(rows) == 0) {
+if (ArrayCount(rows) == 0) {
   LogEvent(CONFIG.LOG_KEY, 'Нет активных обучений к завершению для архивных групп');
   EnableLog(CONFIG.LOG_KEY, false);
-  return;
 }
 
 // Счётчик завершённых записей
@@ -81,8 +81,8 @@ finishedCount = 0;
 
 // Проходим по найденным активным обучениям и завершаем каждое
 for (row in rows) {
-  if (!row || !row.id) continue;
-  tools.active_learning_finish(row.id);
+  if (ArrayCount(row) == 0) continue;
+  //tools.active_learning_finish(row.id);
   finishedCount = finishedCount + 1;
 }
 
